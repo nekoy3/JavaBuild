@@ -12,8 +12,9 @@ public class AziServer extends JavaPlugin {
     }
     
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-    	sender.sendMessage(cmd + " --> test command. from " + sender);
-        return true;
+    	if(cmd.getName().equalsIgnoreCase("ranking")){
+    		sender.sendMessage(cmd + " --> test command. from " + sender);
+    	}
+    	return true;
     }
 }
-

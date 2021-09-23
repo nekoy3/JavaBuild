@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>neko</groupId>
+  <artifactId>AziPlugin</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <!-- ↓ Spigot-repository -->
+  <repositories>
+    <repository>
+      <id>spigot-repo</id>
+      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    </repository>
+  </repositories>
+
+  <!-- ↓ Spigot-API -->
+  <dependencies>
+    <dependency>
+      <groupId>org.spigotmc</groupId>
+      <artifactId>spigot-api</artifactId>
+
+      <!-- ↓ (Minecraftバージョン)-R0.1-SNAPSHOT -->
+      <version>1.17.1-R0.1-SNAPSHOT</version>
+
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <!-- ↓ プロパティ設定 -->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- ↓ Java version 16 -->
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+  </properties>
+
+  <!-- plugin.yml を pom.xml と連動させる -->
+  <build>
+    <resources>
+      <resource>
+        <targetPath>.</targetPath>
+        <filtering>true</filtering>
+        <directory>src/main/resources/</directory>
+      </resource>
+    </resources>
+  </build>
+</project>

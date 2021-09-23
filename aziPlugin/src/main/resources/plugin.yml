@@ -1,0 +1,11 @@
+name: AziPlugin
+version: ${project.version}
+main: neko.aziplugin.AziServer
+api-version: 1.15
+
+commands:
+  ranking:
+    description: This command is get ranking.
+    usage: /<command>
+    default: true
+    

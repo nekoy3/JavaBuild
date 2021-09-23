@@ -8,4 +8,3 @@ commands:
     description: This command is get ranking.
     usage: /<command>
     default: true
-    

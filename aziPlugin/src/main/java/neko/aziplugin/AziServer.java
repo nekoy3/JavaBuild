@@ -16,3 +16,4 @@ public class AziServer extends JavaPlugin {
         return true;
     }
 }
+

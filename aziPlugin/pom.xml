@@ -4,16 +4,16 @@
   <artifactId>AziPlugin</artifactId>
   <version>0.0.2</version>
 
-  <!-- ↓ Spigot-repository -->
   <repositories>
+  <!-- ↓ Spigot-repository -->
     <repository>
       <id>spigot-repo</id>
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
   </repositories>
 
-  <!-- ↓ Spigot-API -->
   <dependencies>
+    <!-- ↓ Spigot-API -->
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
@@ -23,6 +23,7 @@
 
       <scope>provided</scope>
     </dependency>
+    
   </dependencies>
 
   <!-- ↓ プロパティ設定 -->

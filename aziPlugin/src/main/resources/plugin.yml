@@ -7,7 +7,7 @@ commands:
   ranking:
     description: This command is get ranking.
     usage: /<command>
-    default: truep
+    default: true
   ping:
     description: This command is gets a ping.
     usage: /<command>

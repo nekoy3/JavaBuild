@@ -1,4 +1,5 @@
 package neko.aziplugin;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -58,8 +59,8 @@ public class AziServer extends JavaPlugin implements Listener {
 	private Skill skill = null;
 	@EventHandler
 	public void book(PlayerInteractEvent e) {
-		Player player = e.getPlayer();
 		if(e.getItem().getType() != Material.WRITTEN_BOOK) return;
+		Player player = e.getPlayer();
 		BookMeta book = (BookMeta) e.getItem().getItemMeta();
 		//player.sendMessage("Title: " + book.getTitle());
 		//player.sendMessage("page: " + book.getPageCount());
@@ -69,7 +70,20 @@ public class AziServer extends JavaPlugin implements Listener {
 			String magic[] = book.getPage(1).split("\r\n|\n");
 			int magicInt[] = new int[magic.length];
 			for (int i = 0; i < magic.length; i++) {
-				magicInt[i] = Integer.parseInt(magic[i],2);
+				try {
+					magicInt[i] = Integer.parseInt(magic[i],2);
+				} catch (Exception e1) {
+					player.getServer().broadcastMessage(ChatColor.RED + "Format Error");
+					try {
+						Thread.sleep(20);
+					} catch (InterruptedException e2) {
+					}
+					return;
+				}
+				if (magicInt[i] >= 16) {
+					player.getServer().broadcastMessage(ChatColor.RED + "禁忌の扉を開こうとしたな？(5ケタ以上の値指定は禁止です！");
+					return;
+				}
 			}
 
 			if(skill == null || !skill.isRunning()){

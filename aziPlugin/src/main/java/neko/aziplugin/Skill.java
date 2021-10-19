@@ -14,7 +14,7 @@ public abstract class Skill extends BukkitRunnable{
 	abstract protected void fire();
 	public void cancel(){
 		super.cancel();
-		isRunning=false;
+		isRunning = false;
 	}
 	public boolean isRunning(){
 		return isRunning;

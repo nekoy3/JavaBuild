@@ -13,7 +13,7 @@ public abstract class Skill extends BukkitRunnable{
 	}
 	abstract protected void fire();
 	public void cancel(){
-		super.cancel();
+		super.cancel(); //スケジューラ処理のキャンセル
 		isRunning = false;
 	}
 	public boolean isRunning(){

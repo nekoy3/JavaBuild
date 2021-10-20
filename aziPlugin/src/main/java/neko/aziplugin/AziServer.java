@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,7 +12,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.Vector;
 
 public class AziServer extends JavaPlugin implements Listener {
 	@Override
@@ -53,12 +53,20 @@ public class AziServer extends JavaPlugin implements Listener {
 	@EventHandler
 	public void onEntityDamage(EntityDamageEvent e) {
 		Entity entity = e.getEntity();
-		entity.setVelocity(new Vector(0f, 3f, 0f));
+		double damage = e.getFinalDamage(); 
+		if(e.getEntityType() == EntityType.PLAYER) {
+			entity.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "ダメージを与えられた！" + e.getCause() + " / " + damage);
+		}
+		
 	}
 
-	private Skill skill = null;
+	private Skill skill;
 	@EventHandler
 	public void book(PlayerInteractEvent e) {
+		try {
+			Thread.sleep(20);
+		} catch (InterruptedException e2) {
+		}
 		if(e.getItem().getType() != Material.WRITTEN_BOOK) return;
 		Player player = e.getPlayer();
 		BookMeta book = (BookMeta) e.getItem().getItemMeta();
@@ -68,23 +76,19 @@ public class AziServer extends JavaPlugin implements Listener {
 		//player.sendMessage(book.getPage(1));
 		if (book.getTitle().contains("magic")) {
 			String magic[] = book.getPage(1).split("\r\n|\n");
-			int magicInt[] = new int[magic.length];
-			for (int i = 0; i < magic.length; i++) {
-				try {
-					magicInt[i] = Integer.parseInt(magic[i],2);
-				} catch (Exception e1) {
-					player.getServer().broadcastMessage(ChatColor.RED + "Format Error");
-					try {
-						Thread.sleep(20);
-					} catch (InterruptedException e2) {
+			try {
+				for (int i = 0; i < magic.length; i++) {
+					if (Integer.parseInt(magic[i],2) >= 16) {
+						player.getServer().broadcastMessage(ChatColor.RED + "禁忌の扉を開こうとしたな？(5ケタ以上の値指定は禁止です！");
+						return;
 					}
-					return;
 				}
-				if (magicInt[i] >= 16) {
-					player.getServer().broadcastMessage(ChatColor.RED + "禁忌の扉を開こうとしたな？(5ケタ以上の値指定は禁止です！");
-					return;
-				}
+			} catch (Exception e1) {
+				player.getServer().broadcastMessage(ChatColor.RED + "Format Error");
+				return;
 			}
+			int[] magicInt;
+			magicInt = BookMagicRead(book,player);
 
 			if(skill == null || !skill.isRunning()){
 				switch(magicInt[0]){
@@ -93,17 +97,27 @@ public class AziServer extends JavaPlugin implements Listener {
 					break;
 				}
 			}
+		}
 
-			try {
-				Thread.sleep(2);
-			} catch (InterruptedException e1) {
-			}
+		try {
+			Thread.sleep(2);
+		} catch (InterruptedException e1) {
 		}
 	}
 
 	@EventHandler
-	public void stairs_sit(PlayerInteractEvent e) {
+	public void StairsSit(PlayerInteractEvent e) {
 		Player player = e.getPlayer();
 
 	}
+
+	public int[] BookMagicRead(BookMeta book,Player p) {
+		String magic[] = book.getPage(1).split("\r\n|\n");
+		int magicInt[] = new int[magic.length];
+		for (int i = 0; i < magic.length; i++) {
+			magicInt[i] = Integer.parseInt(magic[i],2);
+		}
+		return magicInt;
+	}
+	//本を読み取ってコストや発動時間が制限時間内かを確認したい
 }
